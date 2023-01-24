@@ -53,20 +53,21 @@ namespace LibraryAPI.DbContext
             context.BookTransactions.AddRange(
                 new BookTransaction
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 1,
                     ISBN = "978-9-56-148410-0",
-                    MemberId = Guid.Parse("d9f5b9b0-5b9b-4b9b-9b9b-5b9b9b9b9b9b"),
-                    BorrowDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-5)),
-                    DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(30)),
+                    MemberId = 1,
+                    BorrowDate = DateTime.Now.AddDays(-5),
+                    DueDate = DateTime.Now.AddDays(30),
+                    ReturnDate = null,
 
                 },
                 new BookTransaction
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 2,
                     ISBN = "978-9-56-148410-1",
-                    MemberId = Guid.Parse("d9f5b9b0-5b9b-4b9b-9b9b-5b9b9b9b9b9c"),
-                    BorrowDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-45)),
-                    DueDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-15)),
+                    MemberId = 2,
+                    BorrowDate = DateTime.Now.AddDays(-45),
+                    DueDate = DateTime.Now.AddDays(-15),
                     ReturnDate = null
                 }
             );
@@ -83,21 +84,21 @@ namespace LibraryAPI.DbContext
                 
                 new Member
                 {
-                    Id = Guid.Parse("d9f5b9b0-5b9b-4b9b-9b9b-5b9b9b9b9b9b"),
+                    Id = 1,
                     FirstName = "John",
                     LastName = "Doe",
                     Email = "john@gmail.com"
                 },
                 new Member()
                 {
-                    Id = Guid.Parse("d9f5b9b0-5b9b-4b9b-9b9b-5b9b9b9b9b9c"),
+                    Id = 2,
                     FirstName = "Jane",
                     LastName = "Doe",
                     Email = "jane@gmail.com"
                 },
                 new Member()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = 3,
                     FirstName = "Jack",
                     LastName = "Doe",
                     Email = "jack@gmail.com"

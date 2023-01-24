@@ -4,17 +4,19 @@ namespace LibraryAPI.Models;
 
 public class BookTransaction
 {
-    public Guid Id { get; set; }
-
+    
+    public int Id { get; set; }
+    
     [ForeignKey(nameof(Book))]
     public string ISBN { get; set; }
-
-    [ForeignKey(nameof(Member))]
-    public Guid MemberId { get; set; }
+    public virtual Book Book { get; set; }
     
-    public DateOnly BorrowDate { get; set; }
-    public DateOnly? DueDate { get; set; }
-    public DateOnly? ReturnDate { get; set; }
+    [ForeignKey(nameof(Member))]
+    public int MemberId { get; set; }
+    public virtual Member Member { get; set; }
+    public DateTime? BorrowDate { get; set; }
+    public DateTime? DueDate { get; set; }
+    public DateTime? ReturnDate { get; set; }
 
 }
 
