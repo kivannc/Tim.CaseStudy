@@ -54,8 +54,8 @@ namespace LibraryAPI.DbContext
             // There are some API's online for this purpose. 
             // A different repository can be implemented and replaced with the current one. 
             // Now there are only holidays for 2023.
-            
 
+            if (context.Holidays.Any()) return;
 
             var holidays = new List<Holiday>
             {

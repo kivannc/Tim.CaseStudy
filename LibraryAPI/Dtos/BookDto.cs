@@ -1,6 +1,4 @@
-﻿using LibraryAPI.Models;
-
-namespace LibraryAPI.Dtos
+﻿namespace LibraryAPI.Dtos
 {
     public class BookDto
     {
