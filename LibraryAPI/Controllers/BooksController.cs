@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using LibraryAPI.Dtos;
 using LibraryAPI.Repository.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryAPI.Controllers
@@ -22,7 +21,8 @@ namespace LibraryAPI.Controllers
         [HttpGet("GetAll")]
         public async Task<IActionResult> Get()
         {
-            return Ok(_mapper.Map<IEnumerable<BookDto>>(await _bookRepository.GetAllBooksAsync()));
+            var books = await _bookRepository.GetAllBooksAsync();
+            return Ok(_mapper.Map<IEnumerable<BookDto>>(books));
         }
 
         [HttpGet]

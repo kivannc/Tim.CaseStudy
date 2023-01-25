@@ -1,18 +1,29 @@
-﻿using LibraryAPI.Models;
+﻿using LibraryAPI.DbContext;
+using LibraryAPI.Models;
 using LibraryAPI.Repository.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Repository
 {
     public class MemberRepository : IMemberRepository
     {
-        public Task<IEnumerable<Member>> GetAllUsersAsync()
+        private readonly LibraryDbContext _context;
+
+        public MemberRepository(LibraryDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Member> GetUserByIdAsync(int id)
+        public async Task<IEnumerable<Member>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Members.ToListAsync();
+        }
+
+        public async Task<Member> GetUserByIdAsync(int id)
+        {
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
+            return member;
+
         }
 
         public Task AddUserAsync(Member user)
@@ -30,9 +41,10 @@ namespace LibraryAPI.Repository
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> SaveChangesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync()>0;
+            
         }
     }
 }

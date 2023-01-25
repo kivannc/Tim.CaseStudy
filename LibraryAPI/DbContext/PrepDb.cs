@@ -191,6 +191,14 @@ namespace LibraryAPI.DbContext
                     BorrowDate = DateTime.Now.AddDays(-45),
                     DueDate = DateTime.Now.AddDays(-15),
                     ReturnDate = null
+                },
+                new BookTransaction
+                {
+                    Book = books[2],
+                    Member = members[2],
+                    BorrowDate = DateTime.Now.AddDays(-30),
+                    DueDate = DateTime.Now,
+                    ReturnDate = DateTime.Now.AddDays(-25)
                 }
             );
 

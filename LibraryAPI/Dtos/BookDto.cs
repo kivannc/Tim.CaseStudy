@@ -1,4 +1,6 @@
-﻿namespace LibraryAPI.Dtos
+﻿using LibraryAPI.Models;
+
+namespace LibraryAPI.Dtos
 {
     public class BookDto
     {
@@ -8,5 +10,7 @@
         public string Name { get; set; }
 
         public string Author { get; set; }
+
+        public string BookStatus { get; set; }
     }
 }

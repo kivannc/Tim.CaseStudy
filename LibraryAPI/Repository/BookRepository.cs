@@ -18,12 +18,12 @@ namespace LibraryAPI.Repository
 
         public async Task<IEnumerable<Book>> GetAllBooksAsync()
         {
-            return await _context.Books.ToListAsync();
+            return await _context.Books.Include(b => b.BookTransactions.Where(bt => bt.ReturnDate == null)).ToListAsync();
         }
 
         public async Task<IEnumerable<Book>> GetManyAsync(Expression<Func<Book, bool>> predicate)
         {
-            return await _context.Books.Include(x => x.BookTransactions).Where(predicate).ToListAsync();
+            return await _context.Books.Include(b => b.BookTransactions.Where(bt => bt.ReturnDate == null)).Where(predicate).ToListAsync();
         }
 
         public async Task<IEnumerable<Book>> GetManyAsync(string searchString)
