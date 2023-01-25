@@ -12,4 +12,6 @@ public class Book
 
     [Required]
     public string Author { get; set; }
+
+    public ICollection<BookTransaction> BookTransactions { get; set; }
 }

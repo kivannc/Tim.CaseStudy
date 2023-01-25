@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryAPI.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20230124193244_InitialMigration")]
+    [Migration("20230125090530_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -109,7 +109,7 @@ namespace LibraryAPI.Migrations
             modelBuilder.Entity("LibraryAPI.Models.BookTransaction", b =>
                 {
                     b.HasOne("LibraryAPI.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookTransactions")
                         .HasForeignKey("ISBN");
 
                     b.HasOne("LibraryAPI.Models.Member", "Member")
@@ -121,6 +121,11 @@ namespace LibraryAPI.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("LibraryAPI.Models.Book", b =>
+                {
+                    b.Navigation("BookTransactions");
                 });
 #pragma warning restore 612, 618
         }

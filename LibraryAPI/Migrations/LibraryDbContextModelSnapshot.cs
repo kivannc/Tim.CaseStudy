@@ -37,7 +37,7 @@ namespace LibraryAPI.Migrations
 
                     b.HasKey("ISBN");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("LibraryAPI.Models.BookTransaction", b =>
@@ -69,7 +69,7 @@ namespace LibraryAPI.Migrations
 
                     b.HasIndex("MemberId");
 
-                    b.ToTable("BookTransactions");
+                    b.ToTable("BookTransactions", (string)null);
                 });
 
             modelBuilder.Entity("LibraryAPI.Models.Member", b =>
@@ -100,13 +100,13 @@ namespace LibraryAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Members", (string)null);
                 });
 
             modelBuilder.Entity("LibraryAPI.Models.BookTransaction", b =>
                 {
                     b.HasOne("LibraryAPI.Models.Book", "Book")
-                        .WithMany()
+                        .WithMany("BookTransactions")
                         .HasForeignKey("ISBN");
 
                     b.HasOne("LibraryAPI.Models.Member", "Member")
@@ -118,6 +118,11 @@ namespace LibraryAPI.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Member");
+                });
+
+            modelBuilder.Entity("LibraryAPI.Models.Book", b =>
+                {
+                    b.Navigation("BookTransactions");
                 });
 #pragma warning restore 612, 618
         }
