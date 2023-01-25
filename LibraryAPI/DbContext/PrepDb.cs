@@ -37,6 +37,7 @@ namespace LibraryAPI.DbContext
                 var books = SeedBooks(context);
                 var members = SeedMembers(context);
                 SeedBookTransactions(context, books, members);
+                SeedHolidays(context);
 
             }
             catch (Exception e)
@@ -44,6 +45,126 @@ namespace LibraryAPI.DbContext
                 _logger.LogError("Error On Seed Data" + e.Message);
             }
 
+        }
+
+        private static void SeedHolidays(LibraryDbContext context)
+        {   
+            // I considered the option for calculating moving holidays for next years but
+            // I could not find a reliable way to do it. Start days differs according to place on earth and placement of the moon
+            // There are some API's online for this purpose. 
+            // A different repository can be implemented and replaced with the current one. 
+            // Now there are only holidays for 2023.
+            
+
+
+            var holidays = new List<Holiday>
+            {
+                new()
+                {
+                    Name = "Yeni Yıl Tatili",
+                    Description = "1",
+                    Date = new DateTime(2023, 1, 1)
+                },
+                new()
+                {
+                    Name = "Ramazan Bayramı Arifesi",
+                    Description = "0.5",
+                    Date = new DateTime(2023, 4, 20)
+                },
+                new()
+                {
+                    Name = "Ramazan Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 4, 21)
+                },
+                new()
+                {
+                    Name = "Ramazan Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 4, 22)
+                },
+                new()
+                {
+                    Name = "Ramazan Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 4, 23)
+                },
+                new()
+                {
+                    Name = "Ulusal Egemenlik ve Çocuk Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 4, 23)
+                },
+                new()
+                {
+                    Name = "Emek ve Dayanışma Günü",
+                    Description = "1",
+                    Date = new DateTime(2023, 5, 1)
+                },
+                new()
+                {
+                    Name = "Atatürk’ü Anma Gençlik ve Spor Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 5, 19)
+                },
+                new()
+                {
+                    Name = "Kurban Bayramı Arifesi",
+                    Description = "0.5",
+                    Date = new DateTime(2023, 6, 27)
+                },
+                new()
+                {
+                    Name = "Kurban Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 6, 28)
+                },
+                new()
+                {
+                    Name = "Kurban Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 6, 29)
+                },
+                new()
+                {
+                    Name = "Kurban Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 6, 30)
+                },
+                new()
+                {
+                    Name = "Kurban Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 7, 1)
+                },
+                new()
+                {
+                    Name = "Demokrasi ve Milli Birlik Günü",
+                    Description = "1",
+                    Date = new DateTime(2023, 7, 15)
+                },
+                new()
+                {
+                    Name = "Zafer Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 8, 30)
+                },
+                new()
+                {
+                    Name = "Cumhuriyet Bayramı Arifesi",
+                    Description = "0.5",
+                    Date = new DateTime(2023, 10, 28)
+                },
+                new()
+                {
+                    Name = "Cumhuriyet Bayramı",
+                    Description = "1",
+                    Date = new DateTime(2023, 10, 29)
+                }
+            };
+
+            context.AddRange(holidays);
+            context.SaveChanges();
         }
 
         private static void SeedBookTransactions(LibraryDbContext context, List<Book> books, List<Member> members)
