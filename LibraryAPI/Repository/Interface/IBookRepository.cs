@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System;
 
-namespace LibraryAPI.Repository;
+namespace LibraryAPI.Repository.Interface;
 
 public interface IBookRepository
 {
@@ -14,5 +14,5 @@ public interface IBookRepository
     Task UpdateBookAsync(Book book);
     Task DeleteBookAsync(Book book);
     Task<bool> SaveChangesAsync();
-    
+
 }

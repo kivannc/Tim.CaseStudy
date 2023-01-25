@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using System;
 
-namespace LibraryAPI.Repository;
+namespace LibraryAPI.Repository.Interface;
 
 public interface IMemberRepository
 {

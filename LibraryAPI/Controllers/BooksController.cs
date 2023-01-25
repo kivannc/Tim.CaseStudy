@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using LibraryAPI.Dtos;
-using LibraryAPI.Repository;
+using LibraryAPI.Repository.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

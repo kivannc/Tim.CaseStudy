@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using LibraryAPI.DbContext;
 using LibraryAPI.Repository;
+using LibraryAPI.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
