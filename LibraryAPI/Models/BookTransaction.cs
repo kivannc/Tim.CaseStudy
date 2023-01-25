@@ -17,11 +17,21 @@ public class BookTransaction
 
     public Member Member { get; set; }
 
-    public DateTime? BorrowDate { get; set; }
+    public DateTime BorrowDate { get; set; }
 
-    public DateTime? DueDate { get; set; }
+    public DateTime DueDate { get; set; }
 
     public DateTime? ReturnDate { get; set; }
+
+    public BookStatus BookStatus
+    {
+        get
+        {
+            if (ReturnDate != null) return BookStatus.Available;
+            if (DateOnly.FromDateTime(DueDate) >= DateOnly.FromDateTime(DateTime.Now)) return BookStatus.Borrowed;
+            return BookStatus.Overdue;
+        }
+    }
 
 }
 
