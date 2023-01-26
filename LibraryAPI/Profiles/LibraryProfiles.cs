@@ -17,7 +17,8 @@ public class LibraryProfile : AutoMapper.Profile {
                 opt => opt.MapFrom(src => src.BookTransactions == null || src.BookTransactions.Count == 0
                     ? BookStatus.Available
                     : src.BookTransactions.First().BookStatus));
-        
+
+        CreateMap<BookSearchDto, Book>();
         CreateMap<BookTransaction, TransactionDto>();
     }
 

@@ -26,22 +26,15 @@ namespace LibraryAPI.Repository
             return await _context.Books.Include(b => b.BookTransactions.Where(bt => bt.ReturnDate == null)).Where(predicate).ToListAsync();
         }
 
-        public async Task<IEnumerable<Book>> GetManyAsync(string searchString)
+        public async Task<IEnumerable<Book>> GetManyAsync(Book book)
         {
-            // This could be improved. With single dn request with sql query. 
-            // Paging could be used if there too much data.
-            //TODO check if you could improve this later. 
-            var searchList = searchString.Split(' ').Where(x => !string.IsNullOrWhiteSpace(x));
-            var books = new List<Book>();
-            foreach (var search in searchList)
-            {
-                books.AddRange(await GetManyAsync(b =>
-                    b.ISBN.Contains(search) ||
-                    b.Author.Contains(search) || 
-                    b.Name.Contains(search))
-                );
-            }
-            return books.Distinct();
+            var (isbn, name, author,_) = book;
+            var books = await GetManyAsync(b =>
+                (string.IsNullOrWhiteSpace(isbn) || b.ISBN.Contains(isbn)) &&
+                (string.IsNullOrWhiteSpace(name) || b.Name.Contains(name)) &&
+                (string.IsNullOrWhiteSpace(author) || b.Author.Contains(author)));
+
+            return books;
         }
 
         public async Task<Book> GetBookByIdAsync(string isbn)

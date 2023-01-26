@@ -26,16 +26,33 @@ namespace LibraryAPI.Controllers
             _holidayRepository = holidayRepository;
         }
 
-        [HttpGet("{search}")]
-        public async Task<ActionResult<IEnumerable<BookDto>>> Get( string search)
+        [HttpPost]
+        public async Task<ActionResult<IEnumerable<BookDto>>> Search([FromBody] BookSearchDto bookSearch)
         {
-            if (string.IsNullOrWhiteSpace(search))
+            if (bookSearch == null || 
+                (string.IsNullOrWhiteSpace(bookSearch.ISBN) &&
+                 string.IsNullOrWhiteSpace(bookSearch.Name) &&
+                 string.IsNullOrWhiteSpace(bookSearch.Author)))
             {
-                return new EmptyResult();
+                return BadRequest();
             }
-            var books = await _bookRepository.GetManyAsync(search);
+            var book = _mapper.Map<Book>(bookSearch);
+            var books = await _bookRepository.GetManyAsync(book);
             var bookDtoList = _mapper.Map<IEnumerable<BookDto>>(books);
             return Ok(bookDtoList);
+        }
+
+        [HttpGet("{isbn}" , Name = "GetBookDetail")]
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBookDetail(string isbn)
+        {
+            if (string.IsNullOrWhiteSpace(isbn))
+            {
+                return BadRequest();
+            }
+
+            var book = await _bookRepository.GetBookByIdAsync(isbn);
+            var bookDto = _mapper.Map<BookDto>(book);
+            return Ok(bookDto);
         }
 
         [HttpGet("GetDueDate")]
