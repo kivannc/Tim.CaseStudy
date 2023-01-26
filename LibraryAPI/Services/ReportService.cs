@@ -43,7 +43,6 @@ namespace LibraryAPI.Services
             }
 
             //Get upcoming transactions from database
-
             //Get transactions that are due in the next 2 days
             var startDate = DateTime.Now.AddDays(-UpcomingDays);
             
@@ -76,7 +75,7 @@ namespace LibraryAPI.Services
         }
 	
 	    // Calculates the Fibonacci Number
-        // Assumes Fibonacci starts with 0 
+        // Assumes Fibonacci starts with 0 from the example calculation 
         private double CalculateFibonacci(int n )
         {
             if (n <= 1) return 0;
