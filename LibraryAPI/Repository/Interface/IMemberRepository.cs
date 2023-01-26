@@ -7,7 +7,7 @@ namespace LibraryAPI.Repository.Interface;
 public interface IMemberRepository
 {
     Task<IEnumerable<Member>> GetAllUsersAsync();
-    Task<Member> GetUserByIdAsync(int id);
+    Task<Member> GetMemberByIdAsync(int id);
     Task AddUserAsync(Member user);
     Task UpdateUserAsync(Member user);
     Task DeleteUserAsync(Member user);
