@@ -7,11 +7,12 @@ namespace LibraryAPI.Services
 {
     public class ReportService : IReportService
     {
+        private const int UpcomingDays = 2;
+        private const double PenaltyCoefficient = 0.20d;
+
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;
 
-        private const int UpcomingDays = 2;
-        private const double PenaltyCost = 0.20d;
         public ReportService(
             ITransactionRepository transactionRepository,
             IMapper mapper)
@@ -38,7 +39,7 @@ namespace LibraryAPI.Services
             foreach (var transactionDto in mappedLateTransactions)
             {
                 if (transactionDto.BookStatus != BookStatus.Overdue) continue;
-                transactionDto.Penalty = GetPenalty(transactionDto.DueDate);
+                transactionDto.Penalty = CalculatePenalty(transactionDto.LateDays);
             }
 
             //Get upcoming transactions from database
@@ -61,18 +62,33 @@ namespace LibraryAPI.Services
             };
         }
 
-        private double GetPenalty(DateTime dueDate)
+        private double CalculatePenalty(int days)
         {
-
             var penalty = 0.0d;
-            var lateDays = (DateTime.Now - dueDate).TotalDays;
-            while (lateDays >= 0)
+            // First day penalty is 0
+            for (int i = 1; i <= days; i++)
             {
-                penalty += lateDays * PenaltyCost;
-                lateDays--;
+                var prevPenalty = penalty;
+                penalty = CalculateFibonacci(i) * PenaltyCoefficient + prevPenalty;
             }
             //return as 2 decimal places
             return Math.Round(penalty, 2);
+        }
+	
+	    // Calculates the Fibonacci Number
+        // Assumes Fibonacci starts with 0 
+        private double CalculateFibonacci(int n )
+        {
+            if (n <= 1) return 0;
+            var a = 0.0d;
+            var b = 1.0d;
+            for (var i = 2; i <= n-1; i++)
+            {
+                var c = a + b;
+                a = b;
+                b = c;
+            }
+            return b;
         }
     }
 }
