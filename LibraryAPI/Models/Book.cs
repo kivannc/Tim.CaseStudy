@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace LibraryAPI.Models;
 
@@ -12,26 +13,9 @@ public class Book
 
     [Required]
     public string Author { get; set; }
-
+    
+    [JsonIgnore]
     public virtual ICollection<BookTransaction> BookTransactions { get; set; }
 
-    //public BookStatus BookStatus
-    //{
-    //    get
-    //    {
-    //        if (BookTransactions == null) return BookStatus.Available;
-    //        if (BookTransactions.Count == 0)
-    //        {
-    //            return BookStatus.Available;
-    //        }
-    //        var transaction = BookTransactions.FirstOrDefault(t => t.ReturnDate == null);
-    //        if (transaction == null) return BookStatus.Available;
-    //        if (DateTime.Now > transaction.DueDate)
-    //        {
-    //            return BookStatus.Overdue;
-    //        }
 
-    //        return BookStatus.Borrowed;
-    //    }
-    //}
 }
