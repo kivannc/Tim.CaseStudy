@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.DbContext
@@ -6,49 +7,52 @@ namespace LibraryAPI.DbContext
 
     public static class PrepDb
     {
-        private static ILogger _logger;
 
-        public static void PrepPopulation(IApplicationBuilder app, bool isProduction, ILogger logger)
+        public static async Task SeedData(LibraryDbContext context, UserManager<AppUser> userManager)
         {
-            using var serviceScope = app.ApplicationServices.CreateScope();
-            _logger = logger;
 
-            SeedData(serviceScope.ServiceProvider.GetService<LibraryDbContext>(), isProduction);
-        }
+            await context.Database.MigrateAsync();
 
-        private static void SeedData(LibraryDbContext context, bool isProduction)
-        {
-            if (isProduction)
-            {
-                _logger.LogInformation("Attempting to apply migrations...");
-                try
-                {
-                    context.Database.Migrate();
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex.Message);
-                }
-            }
-
-            try
-            {
-
-                var books = SeedBooks(context);
-                var members = SeedMembers(context);
-                SeedBookTransactions(context, books, members);
-                SeedHolidays(context);
-
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Error On Seed Data" + e.Message);
-            }
+            var books = await SeedBooks(context);
+            var members = await SeedMembers(context);
+            await SeedBookTransactions(context, books, members);
+            await SeedHolidays(context);
+            await SeedUsers(context, userManager);
 
         }
 
-        private static void SeedHolidays(LibraryDbContext context)
-        {   
+        private static async Task SeedUsers(LibraryDbContext context, UserManager<AppUser> userManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                var users = new List<AppUser>
+                {
+                    new()
+                    {
+                        UserName = "Admin",
+                        FirstName = "Test",
+                        LastName = "User",
+                        Email = "admin@gmail.com"
+                    },
+                    new()
+                    {
+                        UserName = "kivannc",
+                        FirstName = "Kivanc",
+                        LastName = "Erturk",
+                        Email = "erturkkivanc@gmail.com"
+                    }
+                };
+
+                foreach (var appUser in users)
+                {
+                    var result =  await userManager.CreateAsync(appUser, "232421");
+                }
+            }
+
+        }
+
+        private static async Task SeedHolidays(LibraryDbContext context)
+        {
             // I considered the option for calculating moving holidays for next years but
             // I could not find a reliable way to do it. Start days differs according to place on earth and placement of the moon
             // There are some API's online for this purpose. 
@@ -163,13 +167,12 @@ namespace LibraryAPI.DbContext
                 }
             };
 
-            context.AddRange(holidays);
-            context.SaveChanges();
+            await context.AddRangeAsync(holidays);
+            await context.SaveChangesAsync();
         }
 
-        private static void SeedBookTransactions(LibraryDbContext context, List<Book> books, List<Member> members)
+        private static async Task SeedBookTransactions(LibraryDbContext context, List<Book> books, List<Member> members)
         {
-            _logger.LogInformation("Seeding Book Transactions...");
 
             if (books == null || members == null || context.BookTransactions.Any()) return;
 
@@ -202,15 +205,14 @@ namespace LibraryAPI.DbContext
                 }
             );
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
 
         }
 
-        private static List<Member> SeedMembers(LibraryDbContext context)
+        private static async Task<List<Member>> SeedMembers(LibraryDbContext context)
         {
             if (context.Members.Any()) return null;
 
-            _logger.LogInformation("Seeding Members...");
             var members = new List<Member>()
             {
                 new()
@@ -232,16 +234,15 @@ namespace LibraryAPI.DbContext
                     Email = "jack@gmail.com"
                 }
             };
-            context.Members.AddRange(members);
-            context.SaveChanges();
+            await context.Members.AddRangeAsync(members);
+            await context.SaveChangesAsync();
             return members;
         }
 
-        private static List<Book> SeedBooks(LibraryDbContext context)
+        private static async Task<List<Book>> SeedBooks(LibraryDbContext context)
         {
             if (context.Books.Any()) return null;
 
-            _logger.LogInformation("Seeding Book Data");
             var books = new List<Book>
             {
                 new()
@@ -299,8 +300,8 @@ namespace LibraryAPI.DbContext
                     Author = "Martin, George R. R."
                 }
             };
-            context.Books.AddRange(books);
-            context.SaveChanges();
+            await context.Books.AddRangeAsync(books);
+            await context.SaveChangesAsync();
             return books;
         }
     }

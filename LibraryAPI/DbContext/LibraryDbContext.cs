@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LibraryAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace LibraryAPI.DbContext;
 
-public class LibraryDbContext : Microsoft.EntityFrameworkCore.DbContext {
+public class LibraryDbContext : IdentityDbContext<AppUser> {
 
     public LibraryDbContext(DbContextOptions<LibraryDbContext> options) : base(options)
     {
@@ -20,5 +21,7 @@ public class LibraryDbContext : Microsoft.EntityFrameworkCore.DbContext {
             .HasOne(b => b.Book)
             .WithMany(t => t.BookTransactions)
             .HasForeignKey(fk => fk.ISBN);
+
+        base.OnModelCreating(modelBuilder);
     }
 }

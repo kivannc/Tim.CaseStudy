@@ -1,8 +1,10 @@
 using System.Text.Json.Serialization;
 using LibraryAPI.DbContext;
+using LibraryAPI.Models;
 using LibraryAPI.Repository;
 using LibraryAPI.Repository.Interface;
 using LibraryAPI.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,9 +19,33 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddIdentityCore<AppUser>(opt =>
+{
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequireUppercase = false;
+    opt.Password.RequireLowercase = false;
+    opt.Password.RequireDigit = false;
+    opt.Password.RequiredLength = 4;
+    opt.User.RequireUniqueEmail = true;
+}).AddEntityFrameworkStores<LibraryDbContext>();
+
+
+builder.Services.AddAuthentication();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:3000,https://localhost:3000");
+        });
+});
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddDbContext<LibraryDbContext>(opt =>
@@ -42,12 +68,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllOrigins");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-PrepDb.PrepPopulation(app, app.Environment.IsProduction(), app.Logger);
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<LibraryDbContext>();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
+await PrepDb.SeedData(context, userManager);
 
 app.Run();
