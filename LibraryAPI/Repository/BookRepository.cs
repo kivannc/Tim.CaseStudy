@@ -36,20 +36,17 @@ namespace LibraryAPI.Repository
             foreach (var search in searchList)
             {
                 books.AddRange(await GetManyAsync(b =>
-                    b.BookTransactions.All(bt => bt.ReturnDate != null) &&
-                    (
-                        b.ISBN.Contains(search) ||
-                        b.Author.Contains(search) ||
-                        b.Name.Contains(search))
-                    )
+                    b.ISBN.Contains(search) ||
+                    b.Author.Contains(search) || 
+                    b.Name.Contains(search))
                 );
             }
             return books.Distinct();
         }
 
-        public Task<Book> GetBookByIdAsync(Guid id)
+        public async Task<Book> GetBookByIdAsync(string isbn)
         {
-            throw new NotImplementedException();
+            return await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
         }
 
         public Task AddBookAsync(Book book)
