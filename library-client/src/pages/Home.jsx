@@ -31,7 +31,7 @@ const Home = () => {
   });
   const [bookIsbn, setBookIsbn] = useState('');
 
-  const { error, data, refetch } = useQuery({
+  const { error, data } = useQuery({
     queryKey: ['searchBooks', bookSearch],
     queryFn: () =>
       axios
