@@ -3,10 +3,14 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
 import DailyReport from './pages/DailyReport';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
-    <div>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route index element={<Home />} />
@@ -14,7 +18,8 @@ export default function App() {
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>
-    </div>
+      <ReactQueryDevtools initialIsOpen />
+    </QueryClientProvider>
   );
 }
 
