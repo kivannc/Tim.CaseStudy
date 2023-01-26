@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LibraryAPI.Dtos;
+using LibraryAPI.Models;
 using LibraryAPI.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -10,12 +11,15 @@ namespace LibraryAPI.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private const int MaxAllowedReturnDay = 30;
+
+
         private readonly IBookRepository _bookRepository;
         private readonly IHolidayRepository _holidayRepository;
         private readonly IMapper _mapper;
-        private const int WORKING_DAY = 30;
+ 
 
-        public BooksController(IBookRepository bookRepository, IMapper mapper, IHolidayRepository holidayRepository)
+        public BooksController(IBookRepository bookRepository, IMapper mapper, IHolidayRepository holidayRepository, ITransactionRepository transactionRepository, IMemberRepository memberRepository)
         {
             _bookRepository = bookRepository;
             _mapper = mapper;
@@ -41,7 +45,7 @@ namespace LibraryAPI.Controllers
             var dateOnlyHolidays = holidays.Select(h => DateOnly.FromDateTime(h.Date)).Distinct().ToArray();
             var workingDays = 0;
             var checkedDay = DateTime.Now;
-            while (workingDays < WORKING_DAY)
+            while (workingDays < MaxAllowedReturnDay)
             {
                 if (checkedDay.DayOfWeek == DayOfWeek.Saturday || checkedDay.DayOfWeek == DayOfWeek.Sunday)
                 {
@@ -60,5 +64,7 @@ namespace LibraryAPI.Controllers
 
             return Ok(new DueDateDto { DueDate = checkedDay});
         }
+
+
     }
 }
