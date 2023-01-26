@@ -15,29 +15,42 @@ public class TransactionRepository : ITransactionRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<BookTransaction>> GetAll()
+    {
+        return await _context.BookTransactions
+            .Include(x => x.Book)
+            .Include(x => x.Member)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<BookTransaction>> GetManyAsync(Expression<Func<BookTransaction, bool>> predicate)
     {
-        return await _context.BookTransactions.Include(t=> t.Book).Include(t=>t.Member).Where(predicate).ToListAsync();
+        return await _context.BookTransactions
+            .Include(t => t.Book)
+            .Include(t => t.Member)
+            .Where(predicate)
+            .ToListAsync();
+    }
+
+    public async Task<BookTransaction> GetTransactionByIdAsync(int id)
+    {
+        return await _context.BookTransactions
+            .Include(x => x.Book)
+            .Include(x => x.Member)
+            .FirstOrDefaultAsync(t => t.Id == id);
     }
 
     public void AddBookTransaction(BookTransaction transaction)
     {
-        if (transaction == null)
-        {
-            throw new ArgumentNullException(nameof(transaction));
-        }
+        if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 
         _context.BookTransactions.Add(transaction);
     }
 
     public void UpdateBookTransaction(BookTransaction transaction)
     {
-        if (transaction == null)
-        {
-            throw new ArgumentNullException(nameof(transaction));
-        }
+        if (transaction == null) throw new ArgumentNullException(nameof(transaction));
         _context.BookTransactions.Update(transaction);
-       
     }
 
     public async Task<bool> SaveChangesAsync()
