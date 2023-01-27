@@ -1,10 +1,10 @@
 import { Form, FormControl, Button, Row, Col } from 'react-bootstrap';
 import { useState } from 'react';
 
-const SearchForm = ({ handleSearch, handleClear }) => {
-  const [isbn, setIsbn] = useState('');
-  const [name, setName] = useState('');
-  const [author, setAuthor] = useState('');
+const SearchForm = ({ bookSearch, handleSearch, handleClear }) => {
+  const [isbn, setIsbn] = useState(bookSearch?.isbn || '');
+  const [name, setName] = useState(bookSearch?.name || '');
+  const [author, setAuthor] = useState(bookSearch?.author || '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
