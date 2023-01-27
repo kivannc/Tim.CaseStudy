@@ -46,17 +46,22 @@ const Home = () => {
   return (
     <Container>
       <Row>
-        <Col md={12} lg={bookIsbn ? 6 : 12}>
-          <SearchForm handleSearch={handleSearch} handleClear={handleClear} />
-          {data && data.length > 0 ? (
-            <BookTable data={data} handleBookClick={handleBookClick} />
-          ) : null}
-        </Col>
         {bookIsbn ? (
-          <Col md={12} lg={6}>
+          <Col md={12} lg={12}>
             <BookDetail isbn={bookIsbn} handleClose={handleBookClose} />
           </Col>
-        ) : null}
+        ) : (
+          <Col md={12} lg={12}>
+            <SearchForm
+              bookSearch={bookSearch}
+              handleSearch={handleSearch}
+              handleClear={handleClear}
+            />
+            {data && data.length > 0 ? (
+              <BookTable data={data} handleBookClick={handleBookClick} />
+            ) : null}
+          </Col>
+        )}
       </Row>
     </Container>
   );
