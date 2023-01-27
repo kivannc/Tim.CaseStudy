@@ -11,6 +11,7 @@ const SearchForm = ({ handleSearch }) => {
     handleSearch({ isbn, name, author });
   };
 
+  const buttonEnabled = isbn || name || author;
   return (
     <Form onSubmit={handleSubmit}>
       <Form.Group controlId="formIsbn">
@@ -43,7 +44,12 @@ const SearchForm = ({ handleSearch }) => {
         />
       </Form.Group>
 
-      <Button variant="primary" type="submit" style={{ margin: '20px 0px' }}>
+      <Button
+        disabled={!buttonEnabled}
+        variant="primary"
+        type="submit"
+        style={{ margin: '20px 0px' }}
+      >
         Search
       </Button>
     </Form>
