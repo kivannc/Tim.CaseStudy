@@ -35,10 +35,22 @@ namespace LibraryAPI.Controllers
             return Ok(transactionDtoList);
         }
 
-        [HttpGet("{id}",Name = "GetTransaction")]
-        public async Task<ActionResult<TransactionDto>> GetTransaction(int id)
+        [HttpGet("{id}", Name = "GetTransactionById")]
+        public async Task<ActionResult<TransactionDto>> GetTransactionById(int id)
         {
             var transaction = await _transactionRepository.GetTransactionByIdAsync(id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+            var transactionDto = _mapper.Map<TransactionDto>(transaction);
+            return Ok(transactionDto);
+        }
+
+        [HttpGet("isbn/{isbn}" , Name = "GetTransactionByISBN")]
+        public async Task<ActionResult<TransactionDto>> GetTransactionByISBN(string isbn)
+        {
+            var transaction = await _transactionRepository.GetTransactionByISBNAsync(isbn);
             if (transaction == null)
             {
                 return NotFound();
@@ -87,7 +99,7 @@ namespace LibraryAPI.Controllers
             var mappedTransaction = _mapper.Map<TransactionDto>(transaction);
             await _transactionRepository.SaveChangesAsync();
 
-            return CreatedAtRoute(nameof(GetTransaction), new { id = mappedTransaction.Id }, mappedTransaction);
+            return CreatedAtRoute(nameof(GetTransactionById), new { id = mappedTransaction.Id }, mappedTransaction);
         }
     }
 }

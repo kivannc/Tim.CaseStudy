@@ -40,6 +40,14 @@ public class TransactionRepository : ITransactionRepository
             .FirstOrDefaultAsync(t => t.Id == id);
     }
 
+    public async Task<BookTransaction> GetTransactionByISBNAsync(string isbn)
+    {
+        return await _context.BookTransactions
+            .Include(x => x.Book)
+            .Include(x => x.Member)
+            .FirstOrDefaultAsync(t => t.ISBN == isbn && t.ReturnDate == null);
+    }
+
     public void AddBookTransaction(BookTransaction transaction)
     {
         if (transaction == null) throw new ArgumentNullException(nameof(transaction));

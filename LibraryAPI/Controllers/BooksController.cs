@@ -3,7 +3,6 @@ using LibraryAPI.Dtos;
 using LibraryAPI.Models;
 using LibraryAPI.Repository.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace LibraryAPI.Controllers
 {

@@ -10,6 +10,8 @@ public interface ITransactionRepository
     Task<IEnumerable<BookTransaction>> GetManyAsync(Expression<Func<BookTransaction, bool>> predicate);
 
     Task<BookTransaction> GetTransactionByIdAsync(int id);
+
+    Task<BookTransaction> GetTransactionByISBNAsync(string isbn);
     
     void AddBookTransaction(BookTransaction transaction);
 
