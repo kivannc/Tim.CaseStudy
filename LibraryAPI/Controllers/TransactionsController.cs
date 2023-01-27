@@ -9,7 +9,7 @@ namespace LibraryAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionController : ControllerBase
+    public class TransactionsController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
         private readonly IMemberRepository _memberRepository;
@@ -17,7 +17,7 @@ namespace LibraryAPI.Controllers
         private readonly IPenaltyService _penaltyService;
         private readonly IMapper _mapper;
 
-        public TransactionController(
+        public TransactionsController(
             IBookRepository bookRepository, 
             IMemberRepository memberRepository, 
             ITransactionRepository transactionRepository, 
