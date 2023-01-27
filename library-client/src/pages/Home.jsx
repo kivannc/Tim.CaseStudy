@@ -44,7 +44,7 @@ const Home = () => {
   if (error) return 'An error has occurred: ' + error.message;
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row>
         {bookIsbn ? (
           <Col md={12} lg={12}>
