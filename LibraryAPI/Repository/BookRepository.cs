@@ -28,7 +28,7 @@ namespace LibraryAPI.Repository
 
         public async Task<IEnumerable<Book>> GetManyAsync(Book book)
         {
-            var (isbn, name, author,_) = book;
+            var (isbn, name, author, _) = book;
             var books = await GetManyAsync(b =>
                 (string.IsNullOrWhiteSpace(isbn) || b.ISBN.Contains(isbn)) &&
                 (string.IsNullOrWhiteSpace(name) || b.Name.Contains(name)) &&
@@ -39,7 +39,7 @@ namespace LibraryAPI.Repository
 
         public async Task<Book> GetBookByIdAsync(string isbn)
         {
-            return await _context.Books.FirstOrDefaultAsync(b => b.ISBN == isbn);
+            return await _context.Books.Include(b => b.BookTransactions.Where(bt => bt.ReturnDate == null)).FirstOrDefaultAsync(b => b.ISBN == isbn);
         }
 
         public Task AddBookAsync(Book book)

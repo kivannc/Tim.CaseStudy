@@ -2,6 +2,7 @@
 using LibraryAPI.Dtos;
 using LibraryAPI.Models;
 using LibraryAPI.Repository.Interface;
+using LibraryAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryAPI.Controllers
@@ -13,17 +14,20 @@ namespace LibraryAPI.Controllers
         private readonly IBookRepository _bookRepository;
         private readonly IMemberRepository _memberRepository;
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IPenaltyService _penaltyService;
         private readonly IMapper _mapper;
 
         public TransactionController(
             IBookRepository bookRepository, 
             IMemberRepository memberRepository, 
             ITransactionRepository transactionRepository, 
+            IPenaltyService penaltyService,
             IMapper mapper)
         {
             _bookRepository = bookRepository;
             _memberRepository = memberRepository;
             _transactionRepository = transactionRepository;
+            _penaltyService = penaltyService;
             _mapper = mapper;
         }
 
@@ -56,6 +60,7 @@ namespace LibraryAPI.Controllers
                 return NotFound();
             }
             var transactionDto = _mapper.Map<TransactionDto>(transaction);
+            transactionDto.Penalty = _penaltyService.CalculatePenalty(transactionDto.LateDays);
             return Ok(transactionDto);
         }
 

@@ -38,7 +38,7 @@ namespace LibraryAPI.Controllers
             var book = _mapper.Map<Book>(bookSearch);
             var books = await _bookRepository.GetManyAsync(book);
             var bookDtoList = _mapper.Map<IEnumerable<BookDto>>(books);
-            return Ok(bookDtoList);
+            return Ok(bookDtoList.OrderBy(b=> b.BookStatus));
         }
 
         [HttpGet("{isbn}" , Name = "GetBookDetail")]

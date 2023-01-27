@@ -8,17 +8,18 @@ namespace LibraryAPI.Services;
 public class ReportService : IReportService
 {
     private const int UpcomingDays = 2;
-    private const double PenaltyCoefficient = 0.20d;
     private readonly IMapper _mapper;
 
     private readonly ITransactionRepository _transactionRepository;
+    private readonly IPenaltyService _penaltyService;
 
     public ReportService(
         ITransactionRepository transactionRepository,
-        IMapper mapper)
+        IMapper mapper, IPenaltyService penaltyService)
     {
         _transactionRepository = transactionRepository;
         _mapper = mapper;
+        _penaltyService = penaltyService;
     }
 
     public async Task<ReportDto> GetDailyReportAsync()
@@ -39,7 +40,7 @@ public class ReportService : IReportService
         foreach (var transactionDto in mappedLateTransactions)
         {
             if (transactionDto.BookStatus != BookStatus.Overdue) continue;
-            transactionDto.Penalty = CalculatePenalty(transactionDto.LateDays);
+            transactionDto.Penalty = _penaltyService.CalculatePenalty(transactionDto.LateDays);
         }
 
         //Get upcoming transactions from database
@@ -62,34 +63,5 @@ public class ReportService : IReportService
         };
     }
 
-    private double CalculatePenalty(int days)
-    {
-        var penalty = 0.0d;
-        // First day penalty is 0
-        for (var i = 1; i <= days; i++)
-        {
-            var prevPenalty = penalty;
-            penalty = CalculateFibonacci(i) * PenaltyCoefficient + prevPenalty;
-        }
 
-        //return as 2 decimal places
-        return Math.Round(penalty, 2);
-    }
-
-    // Calculates the Fibonacci Number
-    // Assumes Fibonacci starts with 0 from the example calculation 
-    private double CalculateFibonacci(int n)
-    {
-        if (n <= 1) return 0;
-        var a = 0.0d;
-        var b = 1.0d;
-        for (var i = 2; i <= n - 1; i++)
-        {
-            var c = a + b;
-            a = b;
-            b = c;
-        }
-
-        return b;
-    }
 }
