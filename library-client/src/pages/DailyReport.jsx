@@ -25,7 +25,7 @@ const DailyReport = () => {
   const { lateTransactions, upcomingTransactions } = data;
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Row>
         <ToggleButton
           label="Overdue Books"
@@ -62,9 +62,10 @@ const DailyReport = () => {
             </tbody>
           </Table>
         )}
-
-        <hr />
+      </Row>
+      <Row className="mt-5">
         <ToggleButton
+          className="mt-4"
           label="Upcoming Books"
           show={showUpcoming}
           setShow={setShowUpcoming}
