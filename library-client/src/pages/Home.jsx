@@ -37,17 +37,23 @@ const Home = () => {
     setBookSearch(book);
   };
 
+  const handleClear = () => {
+    setBookSearch(null);
+  };
+
   if (error) return 'An error has occurred: ' + error.message;
 
   return (
     <Container>
       <Row>
-        <Col xs={12} md={bookIsbn ? 6 : 12}>
-          <SearchForm handleSearch={handleSearch} />
-          <BookTable data={data} handleBookClick={handleBookClick} />
+        <Col md={12} lg={bookIsbn ? 6 : 12}>
+          <SearchForm handleSearch={handleSearch} handleClear={handleClear} />
+          {data && data.length > 0 ? (
+            <BookTable data={data} handleBookClick={handleBookClick} />
+          ) : null}
         </Col>
         {bookIsbn ? (
-          <Col xs={12} md={6}>
+          <Col md={12} lg={6}>
             <BookDetail isbn={bookIsbn} handleClose={handleBookClose} />
           </Col>
         ) : null}

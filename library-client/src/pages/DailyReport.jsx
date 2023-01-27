@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Table, Container, Col, Row, Button } from 'react-bootstrap';
+import { Table, Container, Row } from 'react-bootstrap';
 import axios from 'axios';
+
+import ToggleButton from '../components/ToggleButton';
+import formatDate from '../utils/FormatDate';
+import Currency from '../components/Currency';
 
 const DailyReport = () => {
   const [showLate, setShowLate] = useState(true);
@@ -15,7 +19,7 @@ const DailyReport = () => {
     refetchOnMount: false,
   });
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <p className="text-center">Loading...</p>;
   if (error) return <p>An error has occurred: {error.message}</p>;
 
   const { lateTransactions, upcomingTransactions } = data;
@@ -23,9 +27,11 @@ const DailyReport = () => {
   return (
     <Container>
       <Row>
-        <Button onClick={() => setShowLate(!showLate)}>
-          {showLate ? 'Hide' : 'Show'} Overdue Books
-        </Button>
+        <ToggleButton
+          label="Overdue Books"
+          show={showLate}
+          setShow={setShowLate}
+        />
         {showLate && (
           <Table striped bordered hover>
             <thead>
@@ -44,19 +50,23 @@ const DailyReport = () => {
                   <td>{transaction.id}</td>
                   <td>{transaction.book.name}</td>
                   <td>{transaction.member.firstName}</td>
-                  <td>{transaction.dueDate}</td>
+                  <td>{formatDate(transaction.dueDate)}</td>
                   <td>{transaction.lateDays}</td>
-                  <td>{transaction.penalty}</td>
+                  <td>
+                    <Currency value={transaction.penalty} />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </Table>
         )}
 
-        <br />
-        <Button onClick={() => setShowUpcoming(!showUpcoming)}>
-          {showUpcoming ? 'Hide' : 'Show'} Upcoming Books
-        </Button>
+        <hr />
+        <ToggleButton
+          label="Upcoming Books"
+          show={showUpcoming}
+          setShow={setShowUpcoming}
+        />
         {showUpcoming && (
           <Table striped bordered hover>
             <thead>
@@ -75,8 +85,8 @@ const DailyReport = () => {
                   <td>{transaction.id}</td>
                   <td>{transaction.book.name}</td>
                   <td>{transaction.member.firstName}</td>
-                  <td>{transaction.borrowDate}</td>
-                  <td>{transaction.dueDate}</td>
+                  <td>{formatDate(transaction.borrowDate)}</td>
+                  <td>{formatDate(transaction.dueDate)}</td>
                   <td>{transaction.bookStatus}</td>
                 </tr>
               ))}
