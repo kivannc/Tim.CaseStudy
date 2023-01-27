@@ -36,7 +36,7 @@ const DailyReport = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ISBN</th>
                 <th>Book Name</th>
                 <th>Member Name</th>
                 <th>Due Date</th>
@@ -47,9 +47,11 @@ const DailyReport = () => {
             <tbody>
               {lateTransactions.map((transaction) => (
                 <tr key={transaction.Id}>
-                  <td>{transaction.id}</td>
+                  <td>{transaction.book.isbn}</td>
                   <td>{transaction.book.name}</td>
-                  <td>{transaction.member.firstName}</td>
+                  <td>
+                    {transaction.member.firstName} {transaction.member.lastName}
+                  </td>
                   <td>{formatDate(transaction.dueDate)}</td>
                   <td>{transaction.lateDays}</td>
                   <td>
@@ -71,7 +73,7 @@ const DailyReport = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ISBN</th>
                 <th>Book Name</th>
                 <th>Member Name</th>
                 <th>Borrow Date</th>
@@ -82,7 +84,7 @@ const DailyReport = () => {
             <tbody>
               {upcomingTransactions.map((transaction) => (
                 <tr key={transaction.Id}>
-                  <td>{transaction.id}</td>
+                  <td>{transaction.book.isbn}</td>
                   <td>{transaction.book.name}</td>
                   <td>{transaction.member.firstName}</td>
                   <td>{formatDate(transaction.borrowDate)}</td>
