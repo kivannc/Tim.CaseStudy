@@ -4,7 +4,7 @@ import { BookStatus, getColor } from '../utils/BookStatus';
 
 const BookTable = ({ data, handleBookClick }) => {
   return (
-    <Table>
+    <Table bordered hover>
       <thead>
         <tr>
           <th>Name</th>
