@@ -3,16 +3,19 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
+import DueDatePicker from './DueDatePicker';
+
 const BookReserve = ({ handleReserve }) => {
-  const [userId, setUserId] = useState('');
+  const [memberId, setMemberId] = useState('');
+  const [dueDate, setDueDate] = useState(null);
 
   const { data: user } = useQuery({
-    queryKey: ['user', userId],
+    queryKey: ['user', memberId],
     queryFn: () =>
       axios
-        .get(`https://localhost:7133/api/members/${userId}`)
+        .get(`https://localhost:7133/api/members/${memberId}`)
         .then((res) => res.data),
-    enabled: !!userId, // only run if bookIsbn is truthy, otherwise don't run
+    enabled: !!memberId, // only run if bookIsbn is truthy, otherwise don't run
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
@@ -27,8 +30,18 @@ const BookReserve = ({ handleReserve }) => {
               <Form.Control
                 type="text"
                 placeholder="Enter user ID"
-                value={userId}
-                onChange={(e) => setUserId(e.target.value)}
+                value={memberId}
+                onChange={(e) => setMemberId(e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+          <Col lg={5}>
+            <Form.Group>
+              <Form.Label>Due Date</Form.Label>
+              <DueDatePicker
+                selected={dueDate}
+                onDateChange={(date) => setDueDate(date)}
+                className="form-control"
               />
             </Form.Group>
           </Col>
@@ -37,7 +50,7 @@ const BookReserve = ({ handleReserve }) => {
               disabled={!user}
               style={{ marginTop: '32px', float: 'right' }}
               variant="primary"
-              onClick={() => handleReserve(userId)}
+              onClick={() => handleReserve(memberId, dueDate)}
             >
               Reserve
             </Button>

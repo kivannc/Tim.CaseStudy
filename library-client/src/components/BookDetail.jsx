@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import { Container, Row, Col, Button, Form } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import BookTransaction from './BookTransaction';
 import BookCard from './BookCard';
 import BookReserve from './BookReserve';
@@ -11,6 +11,7 @@ const BookDetail = ({ isbn, handleClose }) => {
     isLoading,
     error,
     data: book,
+    refetch: refetchBook,
   } = useQuery({
     queryKey: ['book', isbn],
     queryFn: () =>
@@ -31,12 +32,21 @@ const BookDetail = ({ isbn, handleClose }) => {
     refetchOnMount: false,
   });
 
-  const handleReserve = (userId) => {};
+  const handleReserve = (memberId, dueDate) => {
+    axios
+      .post(`https://localhost:7133/api/transactions`, {
+        isbn,
+        memberId,
+        dueDate,
+      })
+      .then((res) => {
+        refetchBook();
+      })
+      .catch((err) => console.log(err));
+  };
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>An error has occurred: {error.message}</p>;
-
-  const showReserve = book?.bookStatus === 0;
 
   return (
     <>

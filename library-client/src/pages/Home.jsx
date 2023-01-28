@@ -10,7 +10,7 @@ const Home = () => {
   const [bookSearch, setBookSearch] = useState(null);
   const [bookIsbn, setBookIsbn] = useState('');
 
-  const { error, data } = useQuery({
+  const { error, data, refetch } = useQuery({
     queryKey: ['searchBooks', bookSearch],
     queryFn: () =>
       axios
@@ -18,12 +18,10 @@ const Home = () => {
         .then((res) => res.data),
     enabled: bookSearch != null, // only run if search is truthy, otherwise don't run
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnReconnect: false,
     refetchInterval: false,
     refetchIntervalInBackground: false,
-
-    // only run if search is truthy, otherwise don't run
   });
 
   const handleBookClick = (isbn) => {
@@ -31,7 +29,8 @@ const Home = () => {
   };
 
   const handleBookClose = () => {
-    setBookIsbn(''); // clear search
+    setBookIsbn('');
+    refetch();
   };
   const handleSearch = (book) => {
     setBookSearch(book);
