@@ -67,17 +67,17 @@ namespace LibraryAPI.Controllers
 
         [HttpPost]
         //TODO ReserveDto will be implemented
-        public async Task<ActionResult<TransactionDto>> AddTransaction(TransactionDto transactionDto)
+        public async Task<ActionResult<TransactionDto>> AddTransaction(ReserveDto reserveDto)
         {
             //Check if book exist
-            var book = await _bookRepository.GetBookByIdAsync(transactionDto.Book.ISBN);
+            var book = await _bookRepository.GetBookByIdAsync(reserveDto.ISBN);
             if (book == null)
             {
                 return NotFound(nameof(Book));
             }
 
             //Check if member exist 
-            var member = await _memberRepository.GetMemberByIdAsync(transactionDto.Member.Id);
+            var member = await _memberRepository.GetMemberByIdAsync(reserveDto.MemberId);
             if (member == null)
             {
                 return NotFound(nameof(Member));
@@ -96,7 +96,7 @@ namespace LibraryAPI.Controllers
                 Book = book,
                 Member = member,
                 BorrowDate = DateTime.Now,
-                DueDate = transactionDto.DueDate,
+                DueDate = reserveDto.DueDate
             };
 
             _transactionRepository.AddBookTransaction(transaction);
