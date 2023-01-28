@@ -58,12 +58,12 @@ namespace LibraryAPI.Controllers
         public async Task<ActionResult<DueDateDto>> GetDueDate()
         {
             var holidays = await _holidayRepository.GetHolidays();
-            var dateOnlyHolidays = holidays.Select(h => DateOnly.FromDateTime(h.Date)).Distinct().ToArray();
+            var dateOnlyHolidays = holidays.Select(h => DateOnly.FromDateTime(h.Date)).Distinct().ToList();
             var workingDays = 0;
             var checkedDay = DateTime.Now;
             while (workingDays < MaxAllowedReturnDay)
             {
-                if (checkedDay.DayOfWeek == DayOfWeek.Saturday || checkedDay.DayOfWeek == DayOfWeek.Sunday)
+                if (checkedDay.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
                 {
                     checkedDay = checkedDay.AddDays(1);
                     continue;
@@ -78,7 +78,16 @@ namespace LibraryAPI.Controllers
                 workingDays++;
             }
 
-            return Ok(new DueDateDto { DueDate = checkedDay});
+            // add weekends to holidays array
+            for (DateTime date = DateTime.Now; date.Date <= checkedDay.Date; date = date.AddDays(1))
+            {
+                if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+                {
+                    dateOnlyHolidays.Add(DateOnly.FromDateTime(date));
+                }
+            }
+
+            return Ok(new DueDateDto { DueDate = checkedDay , Holidays = dateOnlyHolidays});
         }
 
 
