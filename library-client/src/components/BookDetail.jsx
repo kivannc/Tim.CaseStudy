@@ -39,7 +39,7 @@ const BookDetail = ({ isbn, handleClose }) => {
         memberId,
         dueDate,
       })
-      .then((res) => {
+      .then(() => {
         refetchBook();
       })
       .catch((err) => console.log(err));

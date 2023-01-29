@@ -42,26 +42,28 @@ const Home = () => {
 
   if (error) return 'An error has occurred: ' + error.message;
 
+  const renderBooks = () => (
+    <Col>
+      <SearchForm
+        bookSearch={bookSearch}
+        handleSearch={handleSearch}
+        handleClear={handleClear}
+      />
+      {data && data.length > 0 ? (
+        <BookTable data={data} handleBookClick={handleBookClick} />
+      ) : null}
+    </Col>
+  );
+
+  const renderBookDetail = () => (
+    <Col>
+      <BookDetail isbn={bookIsbn} handleClose={handleBookClose} />
+    </Col>
+  );
+
   return (
     <Container className="mt-4">
-      <Row>
-        {bookIsbn ? (
-          <Col md={12} lg={12}>
-            <BookDetail isbn={bookIsbn} handleClose={handleBookClose} />
-          </Col>
-        ) : (
-          <Col md={12} lg={12}>
-            <SearchForm
-              bookSearch={bookSearch}
-              handleSearch={handleSearch}
-              handleClear={handleClear}
-            />
-            {data && data.length > 0 ? (
-              <BookTable data={data} handleBookClick={handleBookClick} />
-            ) : null}
-          </Col>
-        )}
-      </Row>
+      <Row>{bookIsbn ? renderBookDetail() : renderBooks()}</Row>
     </Container>
   );
 };
