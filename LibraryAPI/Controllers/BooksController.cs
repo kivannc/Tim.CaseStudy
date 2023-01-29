@@ -60,7 +60,7 @@ namespace LibraryAPI.Controllers
             var holidays = await _holidayRepository.GetHolidays();
             var dateOnlyHolidays = holidays.Select(h => DateOnly.FromDateTime(h.Date)).Distinct().ToList();
             var workingDays = 0;
-            var checkedDay = DateTime.Now;
+            var checkedDay = DateTime.Today;
             while (workingDays < MaxAllowedReturnDay)
             {
                 if (checkedDay.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
@@ -79,7 +79,7 @@ namespace LibraryAPI.Controllers
             }
 
             // add weekends to holidays array
-            for (DateTime date = DateTime.Now; date.Date <= checkedDay.Date; date = date.AddDays(1))
+            for (DateTime date = DateTime.Today; date.Date <= checkedDay.Date; date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
                 {

@@ -95,7 +95,7 @@ namespace LibraryAPI.Controllers
             {
                 Book = book,
                 Member = member,
-                BorrowDate = DateTime.Now,
+                BorrowDate = DateTime.Today,
                 DueDate = reserveDto.DueDate
             };
 

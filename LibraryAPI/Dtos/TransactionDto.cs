@@ -14,7 +14,7 @@ public class TransactionDto
 
     public DateTime BorrowDate { get; set; }
 
-    public int LateDays =>DateTime.Now > DueDate ?  (int)(DateTime.Now - DueDate).TotalDays : 0;
+    public int LateDays =>DateTime.Today > DueDate ?  (int)(DateTime.Today - DueDate).TotalDays : 0;
 
     public double Penalty { get; set; }
 

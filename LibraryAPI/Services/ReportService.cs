@@ -27,7 +27,7 @@ public class ReportService : IReportService
         //Get late transactions from database
         var lateTransactions =
             await _transactionRepository
-                .GetManyAsync(t => t.ReturnDate == null && t.DueDate < DateTime.Now);
+                .GetManyAsync(t => t.ReturnDate == null && t.DueDate < DateTime.Today);
 
         //Map them to DTOs
         var mappedLateTransactions = _mapper.Map<IEnumerable<TransactionDto>>(lateTransactions).ToArray();
@@ -44,12 +44,12 @@ public class ReportService : IReportService
         }
 
         //Get upcoming transactions from database
-        //Get transactions that are due in the next 2 days
-        var startDate = DateTime.Now.AddDays(-UpcomingDays);
+        //Get transactions that are due in the last 2 days
+        var startDate = DateTime.Today.AddDays(-UpcomingDays);
 
         var upComingTransactions =
             await _transactionRepository.GetManyAsync(t =>
-                t.ReturnDate == null && t.DueDate >= startDate && t.DueDate <= DateTime.Now);
+                t.ReturnDate == null && t.DueDate >= startDate && t.DueDate > DateTime.Today);
 
 
         // Map them to DTOs

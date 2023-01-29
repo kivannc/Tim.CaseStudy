@@ -45,7 +45,7 @@ namespace LibraryAPI.DbContext
 
                 foreach (var appUser in users)
                 {
-                    var result =  await userManager.CreateAsync(appUser, "232421");
+                    var result = await userManager.CreateAsync(appUser, "232421");
                 }
             }
 
@@ -181,27 +181,49 @@ namespace LibraryAPI.DbContext
                 {
                     Book = books[0],
                     Member = members[0],
-                    BorrowDate = DateTime.Now.AddDays(-5),
-                    DueDate = DateTime.Now.AddDays(30),
-                    ReturnDate = null,
-
-                }
-                ,
+                    BorrowDate = DateTime.Today.AddDays(-5),
+                    DueDate = DateTime.Today.AddDays(30),
+                    ReturnDate = null
+                },
                 new BookTransaction
                 {
                     Book = books[1],
                     Member = members[1],
-                    BorrowDate = DateTime.Now.AddDays(-45),
-                    DueDate = DateTime.Now.AddDays(-15),
+                    BorrowDate = DateTime.Today.AddDays(-45),
+                    DueDate = DateTime.Today.AddDays(-15),
                     ReturnDate = null
                 },
                 new BookTransaction
                 {
                     Book = books[2],
                     Member = members[2],
-                    BorrowDate = DateTime.Now.AddDays(-30),
-                    DueDate = DateTime.Now,
-                    ReturnDate = DateTime.Now.AddDays(-25)
+                    BorrowDate = DateTime.Today.AddDays(-30),
+                    DueDate = DateTime.Today,
+                    ReturnDate = DateTime.Today.AddDays(-25)
+                },
+                new BookTransaction
+                {
+                    Book = books[3],
+                    Member = members[3],
+                    BorrowDate = DateTime.Today.AddDays(-30),
+                    DueDate = DateTime.Today.AddDays(0),
+                    ReturnDate = null
+                },
+                new BookTransaction
+                {
+                    Book = books[4],
+                    Member = members[4],
+                    BorrowDate = DateTime.Today.AddDays(-28),
+                    DueDate = DateTime.Today.AddDays(+1),
+                    ReturnDate = null
+                },
+                new BookTransaction
+                {
+                    Book = books[5],
+                    Member = members[4],
+                    BorrowDate = DateTime.Today.AddDays(-15),
+                    DueDate = DateTime.Today.AddDays(+2),
+                    ReturnDate = null
                 }
             );
 
@@ -232,6 +254,18 @@ namespace LibraryAPI.DbContext
                     FirstName = "Jack",
                     LastName = "Doe",
                     Email = "jack@gmail.com"
+                }
+                ,new()
+                {
+                    FirstName = "Jill",
+                    LastName = "Doe",
+                    Email = "jill@gmail.com"
+                },
+                new()
+                {
+                    FirstName = "James",
+                    LastName = "Doe",
+                    Email = "james@gmail.com"
                 }
             };
             await context.Members.AddRangeAsync(members);
@@ -298,8 +332,33 @@ namespace LibraryAPI.DbContext
                     ISBN = "978-3-13-148410-8",
                     Name = "A Dance with Dragons (A Song of Ice and Fire, Book 5)",
                     Author = "Martin, George R. R."
-                }
+                },
+                new()
+                {
+                    ISBN = "978-0-43-635022-1",
+                    Name = "1984",
+                    Author = "George Orwell"
+                },
+                new()
+                {
+                    ISBN = "978-0-43-635022-2",
+                    Name = "Animal Farm",
+                    Author = "George Orwell"
+                },
+                new ()
+                {
+                    ISBN = "978-0-43-635022-3",
+                    Name = "The Lord of the Rings",
+                    Author = "J. R. R. Tolkien"
+                },
+                new ()
+                {
+                        ISBN = "978-0-43-635022-4",
+                        Name = "The Hobbit",
+                        Author = "J. R. R. Tolkien"
+                },
             };
+            
             await context.Books.AddRangeAsync(books);
             await context.SaveChangesAsync();
             return books;

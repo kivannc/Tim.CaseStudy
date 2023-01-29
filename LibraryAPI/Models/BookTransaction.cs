@@ -28,7 +28,7 @@ public class BookTransaction
         get
         {
             if (ReturnDate != null) return BookStatus.Available;
-            if (DateOnly.FromDateTime(DueDate) >= DateOnly.FromDateTime(DateTime.Now)) return BookStatus.Borrowed;
+            if (DateOnly.FromDateTime(DueDate) >= DateOnly.FromDateTime(DateTime.Today)) return BookStatus.Borrowed;
             return BookStatus.Overdue;
         }
     }
