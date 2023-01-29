@@ -15,8 +15,6 @@ const DailyReport = () => {
     queryKey: ['dailyReport'],
     queryFn: () =>
       axios.get('https://localhost:7133/api/reports').then((res) => res.data),
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
   if (isLoading) return <p className="text-center">Loading...</p>;
@@ -46,7 +44,7 @@ const DailyReport = () => {
             </thead>
             <tbody>
               {lateTransactions.map((transaction) => (
-                <tr key={transaction.Id}>
+                <tr key={transaction.id}>
                   <td>{transaction.book.isbn}</td>
                   <td>{transaction.book.name}</td>
                   <td>
@@ -55,7 +53,9 @@ const DailyReport = () => {
                   <td>{formatDate(transaction.dueDate)}</td>
                   <td>{transaction.lateDays}</td>
                   <td>
-                    <Currency value={transaction.penalty} />
+                    <strong>
+                      <Currency value={transaction.penalty} />
+                    </strong>
                   </td>
                 </tr>
               ))}
@@ -79,18 +79,18 @@ const DailyReport = () => {
                 <th>Member Name</th>
                 <th>Borrow Date</th>
                 <th>Due Date</th>
-                <th>Book Status</th>
               </tr>
             </thead>
             <tbody>
               {upcomingTransactions.map((transaction) => (
-                <tr key={transaction.Id}>
+                <tr key={transaction.id}>
                   <td>{transaction.book.isbn}</td>
                   <td>{transaction.book.name}</td>
                   <td>{transaction.member.firstName}</td>
                   <td>{formatDate(transaction.borrowDate)}</td>
-                  <td>{formatDate(transaction.dueDate)}</td>
-                  <td>{transaction.bookStatus}</td>
+                  <td>
+                    <strong>{formatDate(transaction.dueDate)}</strong>
+                  </td>
                 </tr>
               ))}
             </tbody>
