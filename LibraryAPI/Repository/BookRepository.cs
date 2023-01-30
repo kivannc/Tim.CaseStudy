@@ -28,12 +28,29 @@ namespace Library.API.Repository
         public async Task<IEnumerable<Book>> GetManyAsync(Book book)
         {
             var (isbn, name, author, _) = book;
-            var books = await GetManyAsync(b =>
-                (string.IsNullOrWhiteSpace(isbn) || b.ISBN.Contains(isbn)) &&
-                (string.IsNullOrWhiteSpace(name) || b.Name.Contains(name)) &&
-                (string.IsNullOrWhiteSpace(author) || b.Author.Contains(author)));
+            var names = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var authors = author.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            return books;
+            IQueryable<Book> query = _context.Books;
+
+            if (string.IsNullOrWhiteSpace(isbn))
+            {
+                query = query.Where(b => b.ISBN.Contains(isbn));
+            }
+            
+            foreach (var n in names)
+            {
+                string temp = n;
+                query = query.Where(b => b.Name.Contains(temp));
+            }
+
+            foreach (var a in authors)
+            {
+                string temp = a;
+                query = query.Where(b => b.Author.Contains(temp)); 
+            }
+
+            return await query.ToListAsync();
         }
 
         public async Task<Book> GetBookByIdAsync(string isbn)
