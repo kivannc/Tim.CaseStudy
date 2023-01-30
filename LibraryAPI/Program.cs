@@ -1,9 +1,9 @@
 using System.Text.Json.Serialization;
-using LibraryAPI.DbContext;
-using LibraryAPI.Models;
-using LibraryAPI.Repository;
-using LibraryAPI.Repository.Interface;
-using LibraryAPI.Services;
+using Library.API.DbContext;
+using Library.API.Models;
+using Library.API.Repository;
+using Library.API.Repository.Interface;
+using Library.API.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,6 +1,6 @@
-﻿using LibraryAPI.Models;
+﻿using Library.API.Models;
 
-namespace LibraryAPI.Dtos;
+namespace Library.API.Dtos;
 
 public class TransactionDto
 {

@@ -1,6 +1,6 @@
-﻿using LibraryAPI.Dtos;
+﻿using Library.API.Dtos;
 
-namespace LibraryAPI.Services;
+namespace Library.API.Services;
 
 public interface IReportService
 {

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using LibraryAPI.Dtos;
-using LibraryAPI.Models;
-using LibraryAPI.Repository.Interface;
-using LibraryAPI.Services;
+using Library.API.Dtos;
+using Library.API.Models;
+using Library.API.Repository.Interface;
+using Library.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryAPI.Controllers
+namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

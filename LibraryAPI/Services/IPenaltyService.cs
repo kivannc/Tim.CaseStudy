@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.Services;
+﻿namespace Library.API.Services;
 
 public interface IPenaltyService
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace LibraryAPI.Models;
+namespace Library.API.Models;
 
 public class Book
 {

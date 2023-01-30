@@ -1,8 +1,6 @@
-﻿using LibraryAPI.Models;
-using System.Linq.Expressions;
-using System;
+﻿using Library.API.Models;
 
-namespace LibraryAPI.Repository.Interface;
+namespace Library.API.Repository.Interface;
 
 public interface IMemberRepository
 {

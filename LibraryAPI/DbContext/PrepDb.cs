@@ -1,8 +1,8 @@
-﻿using LibraryAPI.Models;
+﻿using Library.API.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryAPI.DbContext
+namespace Library.API.DbContext
 {
 
     public static class PrepDb

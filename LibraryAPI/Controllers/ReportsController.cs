@@ -1,8 +1,8 @@
-﻿using LibraryAPI.Dtos;
-using LibraryAPI.Services;
+﻿using Library.API.Dtos;
+using Library.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace LibraryAPI.Controllers
+namespace Library.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

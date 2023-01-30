@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using LibraryAPI.Dtos;
-using LibraryAPI.Models;
-using LibraryAPI.Repository.Interface;
+using Library.API.Dtos;
+using Library.API.Models;
+using Library.API.Repository.Interface;
 
-namespace LibraryAPI.Services;
+namespace Library.API.Services;
 
 public class ReportService : IReportService
 {

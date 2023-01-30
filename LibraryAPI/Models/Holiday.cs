@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.Models;
+﻿namespace Library.API.Models;
 
 public class Holiday
 {

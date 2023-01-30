@@ -1,8 +1,7 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using LibraryAPI.Dtos;
-using LibraryAPI.Models;
+﻿using Library.API.Dtos;
+using Library.API.Models;
 
-namespace LibraryAPI.Profiles;
+namespace Library.API.Profiles;
 
 public class LibraryProfile : AutoMapper.Profile {
 

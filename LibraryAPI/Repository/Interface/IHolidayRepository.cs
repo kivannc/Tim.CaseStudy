@@ -1,6 +1,6 @@
-﻿using LibraryAPI.Models;
+﻿using Library.API.Models;
 
-namespace LibraryAPI.Repository.Interface;
+namespace Library.API.Repository.Interface;
 
 public interface IHolidayRepository
 {

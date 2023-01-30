@@ -1,11 +1,10 @@
 ﻿using System.Linq.Expressions;
-using LibraryAPI.DbContext;
-using LibraryAPI.Models;
-using LibraryAPI.Repository.Interface;
+using Library.API.DbContext;
+using Library.API.Models;
+using Library.API.Repository.Interface;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 
-namespace LibraryAPI.Repository
+namespace Library.API.Repository
 {
     public class BookRepository : IBookRepository
     {

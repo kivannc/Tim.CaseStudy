@@ -1,4 +1,4 @@
-﻿namespace LibraryAPI.Dtos;
+﻿namespace Library.API.Dtos;
 
 public class MemberDto
 {
