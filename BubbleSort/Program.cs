@@ -1,17 +1,16 @@
 ﻿
+
 var array1 = new[] { 1, 2, 3, 4, 5 };
 var array2 = new[] { 5, 4, 3, 2, 1 };
 var array3 = new[] { 1, 3, 5, 2, 4 };
 var array4 = new[] { 1 };
 var array5 = Array.Empty<int>();
 
-var sortedArray = Sort(array1);
+var sortedArray = Sort(array3);
 Console.WriteLine(string.Join(",", sortedArray));
 sortedArray = Sort(array1);
 Console.WriteLine(string.Join(",", sortedArray));
 sortedArray = Sort(array2);
-Console.WriteLine(string.Join(",", sortedArray));
-sortedArray = Sort(array3);
 Console.WriteLine(string.Join(",", sortedArray));
 sortedArray = Sort(array4);
 Console.WriteLine(string.Join(",", sortedArray));
